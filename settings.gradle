@@ -1,0 +1,6 @@
+rootProject.name = 'terabit'
+include 'common'
+include 'Primary'
+include 'Witness'
+include 'tests'
+

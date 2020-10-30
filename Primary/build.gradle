@@ -1,0 +1,43 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "$kotlin_stdlib"
+    implementation "io.netty:netty-all:$netty_version"
+    implementation 'org.greenrobot:eventbus:3.2.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0"
+    compile project(':common')
+//    compile group: 'org.apache.maven.plugins', name: 'maven-compiler-plugin', version: '3.8.1'
+//    implementation group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.46'
+}
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs += [
+                "-Xopt-in=org.mylibrary.OptInAnnotation"
+        ]
+//      jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+//    kotlinOptions.jvmTarget = "1.8"
+}
+
+//todo: how can this be applied to kotlin compiler?
+compileJava {
+    options.encoding = "UTF-8"
+    options.forkOptions.executable = "javac" // required for above?
+//    options.incremental = true
+//    sourceCompatibility = '9'
+//    targetCompatibility = '9'
+    options.compilerArgs.addAll([
+            "--add-exports","java.base/sun.security.x509=ALL-UNNAMED",
+            "--add-exports","java.base/sun.security.tools.keytool=ALL-UNNAMED"
+    ])
+}
